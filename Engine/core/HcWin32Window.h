@@ -17,15 +17,21 @@ public:
     void PollEvents();
     void Shutdown();
 
+    void CreateLaunchWindow(HINSTANCE hInstance, int width, int height);
+    void DestroyLaunchWindow();
+    void RegisterWindowClass(HINSTANCE hInstance);
+
     bool ShouldClose() const { return m_shouldClose; }
     HWND GetHWND() const { return m_hWnd; }
 
 private:
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+    HWND      m_splashHWnd = nullptr;
     HWND      m_hWnd = nullptr;
     HINSTANCE m_hInstance = nullptr;
     bool      m_shouldClose = false;
+    HANDLE m_hSplashImage = nullptr;
 
 
 };

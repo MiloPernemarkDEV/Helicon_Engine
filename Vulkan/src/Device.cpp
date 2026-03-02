@@ -25,7 +25,7 @@ void Device::pickPhysicalDevice(VkPhysicalDevice physicalDevice, VkInstance inst
 	if (physicalDevice == VK_NULL_HANDLE) throw std::runtime_error("failed to find suitable GPU!");
 }
 
-bool isDeviceSuitable(VkPhysicalDevice device) 
+bool Device::isDeviceSuitable(VkPhysicalDevice device) 
 {
 	VkPhysicalDeviceProperties deviceProperties;
 	VkPhysicalDeviceFeatures deviceFeatures;

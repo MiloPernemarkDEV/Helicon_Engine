@@ -18,9 +18,6 @@
     <ClInclude Include="core\HcInput.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\HcArray.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\HcWin32Window.h">
       <Filter>core</Filter>
     </ClInclude>

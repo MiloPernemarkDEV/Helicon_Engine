@@ -5,7 +5,7 @@
 class Device {
 public:
 	void pickPhysicalDevice(VkPhysicalDevice physicalDevice, VkInstance instance);
-	bool isDeviceSuitable(VkPhysicalDevice physicalDevice, VkInstance instance);
+	bool isDeviceSuitable(VkPhysicalDevice physicalDevice);
 private:
 
 };
