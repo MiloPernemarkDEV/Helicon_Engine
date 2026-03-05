@@ -1,5 +1,6 @@
 #pragma once
 #include "RendDefines.h"
+#include <memory>
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -12,7 +13,7 @@ public:
     virtual void Shutdown() = 0;
 };
 
-RENDERER_API IRenderer* hcCreateRenderer();
+RENDERER_API std::unique_ptr<IRenderer> hcCreateRenderer();
 
 
 

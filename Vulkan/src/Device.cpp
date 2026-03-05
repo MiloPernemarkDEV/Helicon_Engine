@@ -73,10 +73,6 @@ bool Device::isDeviceSuitable(VkPhysicalDevice device)
 	return indices.isComplete();
 }
 
-void Device::clear(VkDevice& device)
-{
-	vkDestroyDevice(device, nullptr);
-}
 
 QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {
 	QueueFamilyIndices indices;
@@ -103,4 +99,10 @@ QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {
 	}
 
 	return indices;
+}
+
+// pass memory adress of the actual device 
+void Device::clear(VkDevice& device)
+{
+	vkDestroyDevice(device, nullptr);
 }

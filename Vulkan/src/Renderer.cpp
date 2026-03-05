@@ -37,16 +37,9 @@ void Renderer::Shutdown()
     clearVkInstance();
 }
 
-IRenderer* hcCreateRenderer() 
+std::unique_ptr<IRenderer> hcCreateRenderer() 
 {
-    return new Renderer();
-}
-
-void Renderer::clearVkInstance() 
-{
-    if (vkInstance_ != VK_NULL_HANDLE) {
-        vkDestroyInstance(vkInstance_, nullptr);
-    }
+    return std::make_unique<Renderer>();
 }
 
 void Renderer::populateInstanceCreateInfo(
@@ -75,5 +68,12 @@ void Renderer::populateInstanceCreateInfo(
     else {
         createInfo.enabledLayerCount = 0;
         createInfo.pNext = nullptr;
+    }
+}
+
+void Renderer::clearVkInstance()
+{
+    if (vkInstance_ != VK_NULL_HANDLE) {
+        vkDestroyInstance(vkInstance_, nullptr);
     }
 }

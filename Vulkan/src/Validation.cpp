@@ -54,11 +54,10 @@ void Validation::setupDebugMessenger(VkInstance instance, VkDebugUtilsMessengerE
 
     if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
         throw std::runtime_error("Failed to set up debug messenger!");
-    }
+    }   
 }
 
-// Might be a bug check cleanup 
-void Validation::clear(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger) {
+void Validation::clear(VkInstance& instance, VkDebugUtilsMessengerEXT& debugMessenger) {
     if (enableValidationLayers) {
         DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     }

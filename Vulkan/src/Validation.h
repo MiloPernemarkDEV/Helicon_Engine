@@ -19,7 +19,7 @@ public:
     std::vector<const char*> getRequiredExtensions();
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& create_info);
     void setupDebugMessenger(VkInstance instance, VkDebugUtilsMessengerEXT& debugMessenger);
-    void clear(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger);
+    void clear(VkInstance& instance, VkDebugUtilsMessengerEXT& debugMessenger);
 
 private:
     static VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);

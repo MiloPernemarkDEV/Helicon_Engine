@@ -4,7 +4,11 @@
 #include "core/HcWin32Window.h"
 #include <stdexcept>
 #include "IRenderer.h"
+#include <memory>
+
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+
 
 namespace Helicon
 {
@@ -12,17 +16,23 @@ namespace Helicon
     {
     public:
         Application() = default;
-
+        Application(const Application&) = delete;
+        Application& operator=(const Application&) = delete;
+        ~Application();
+        
         bool LaunchCoreSystems();
         bool LaunchModules();
 
         void GameLoop();
 
         void ShutdownModules();
-        void ShutdownCoreSystems();
+        void ShutdownCore();
 
     private:
-        HcWin32Window m_Window;
-        IRenderer* m_renderer = hcCreateRenderer();
+        HINSTANCE hInstance_;
+        HcWin32Window window_;
+        std::unique_ptr<IRenderer> renderer_ = hcCreateRenderer();
+        bool hasShutCore_ = false;
+        bool hasShutModules_ = false;
     };
 }

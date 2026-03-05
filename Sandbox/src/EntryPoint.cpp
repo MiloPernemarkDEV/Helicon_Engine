@@ -1,6 +1,7 @@
 #include "Application.h"
 	
 
+
 int main ()
 {
 	Helicon::Application app;
@@ -19,7 +20,7 @@ int main ()
 
 	app.ShutdownModules();
 
-	app.ShutdownCoreSystems();
+	app.ShutdownCore();
 
 	return EXIT_SUCCESS;
 }

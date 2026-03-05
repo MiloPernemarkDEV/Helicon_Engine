@@ -1,31 +1,34 @@
 #include "Application.h"
 #include <iostream>
-#include <Windows.h>
-
 #include <chrono> 
 #include <thread>
 
 namespace Helicon
 {
-   
-    bool Application::LaunchCoreSystems()
+    Application::~Application()
     {
-        HINSTANCE hInstance = GetModuleHandle(nullptr);
-
-        m_Window.CreateLaunchWindow(hInstance, 500, 300);
-
-        auto startTime = std::chrono::high_resolution_clock::now();
-        while (std::chrono::duration<float>(std::chrono::high_resolution_clock::now() - startTime).count() < 5.0f) {
-            m_Window.PollEvents();
+        if (!hasShutModules_) 
+        {
+            ShutdownModules();
         }
 
-        if (!m_Window.Initialize(hInstance, HC_WINDOW_WIDTH, HC_WINDOW_HEIGHT, "Banana Farming Simulator"))
+        if (!hasShutCore_) 
+        {
+            ShutdownCore();
+        }
+    }
+
+    bool Application::LaunchCoreSystems()
+    {
+        hInstance_ = GetModuleHandle(nullptr);
+
+        if (!window_.Initialize(hInstance_, HC_WINDOW_WIDTH, HC_WINDOW_HEIGHT, "Banana Farming Simulator"))
             return false;
 
-        if (!m_renderer->Initialize(m_Window.GetHWND()))
+        if (!renderer_->Initialize(window_.GetHWND()))
             return false;
 
-        m_Window.DestroyLaunchWindow();
+        window_.DestroyLaunchWindow();
 
         return true;
     }
@@ -37,21 +40,30 @@ namespace Helicon
 
     void Application::GameLoop()
     {
-        while (!m_Window.ShouldClose())
+        while (!window_.ShouldClose())
         {
-            m_Window.PollEvents();
+            window_.PollEvents();
 
             // m_renderer->RenderFrame();
         }
-
-        m_Window.Shutdown();
     }
 
+    // shutdown module & core systems in reverse order 
     void Application::ShutdownModules()
     {
+     
+
+        hasShutModules_ = true;
     }
 
-    void Application::ShutdownCoreSystems()
+    void Application::ShutdownCore()
     {
+        if (renderer_) {
+            renderer_->Shutdown(); 
+        }
+
+        window_.Shutdown(); 
+
+        hasShutCore_ = true;
     }
 }

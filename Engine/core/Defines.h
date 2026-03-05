@@ -31,3 +31,11 @@ constexpr bool enableEngineLogger = false;
 	#define FORCE_INLINE inline
 #endif
 
+// Rough sketch on the module idea 
+// if the user wants to use another system or their own 
+// they have the possibility to avoid uncessesary bloat 
+#define IMPORT_MODULE_HELICON_LOGGER
+#define IMPORT_MODULE_HELICON_AI
+#define IMPORT_MODULE_HELICON_IN_GAME_OVERLAY_EDITOR
+#define IMPORT_MODULE_HELICON_VULKAN_RENDERER
+#define IMPORT_MODULE_HELICON_MATH
