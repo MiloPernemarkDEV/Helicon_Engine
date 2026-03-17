@@ -57,9 +57,9 @@ Contributions are welcome, especially from students or developers interested in 
 - Documentation and examples  
 - Almost anything you want to do 
 
-### Naming Conventions
+### View Naming Conventions
 
-[View Naming Conventions](https://github.com/MiloPernemarkDEV/Helicon-Engine/blob/main/NAMING.litcoffee)
+[Naming Conventions](https://github.com/MiloPernemarkDEV/Helicon-Engine/blob/main/NAMING.litcoffee)
 
 ## Design Goals
 
