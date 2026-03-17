@@ -4,8 +4,6 @@ Helicon is a modular C++ game engine built around a core-and-module architecture
 
 The engine consists of a central core dll and optional subsystems called modules. The core provides foundational systems required for all applications, while modules can be selectively included depending on project needs. This design prioritizes modularity, separation of concerns, and long-term maintainability.
 
----
-
 ## Architecture Overview
 
 Helicon is split into two main parts:
@@ -16,16 +14,12 @@ The core is always included and provides essential engine functionality. It is c
 ### Modules
 Modules are optional subsystems implemented as separate dynamic libraries. They can be included as needed, allowing developers to tailor the engine to their specific use case.
 
----
-
 ## Development Prerequisites
 
 - C++20
 - Visual Studio / CLion / Rider
 - Git
 - **Vulkan SDK**: Download from: [https://vulkan.lunarg.com/sdk/home](https://vulkan.lunarg.com/sdk/home)
-
----
 
 ## External Libraries
 
@@ -36,8 +30,6 @@ Modules are optional subsystems implemented as separate dynamic libraries. They 
 - stb_image
 - Assimp 
 - Dear ImGui (UI)
-
----
 
 ## Contributing
 
@@ -54,7 +46,7 @@ Contributions are welcome, especially from students or developers interested in 
 
 - Have fun!
 - Follow existing naming conventions and code style (found below)
-- Avoid unnecessary abstractions, an article on "clean" code by Casey Muratori - https://www.computerenhance.com/p/clean-code-horrible-performance
+- An article on "clean" code by Casey Muratori - https://www.computerenhance.com/p/clean-code-horrible-performance
 - Prefer clarity and explicit behavior
 
 ### Areas for Contribution
@@ -65,56 +57,9 @@ Contributions are welcome, especially from students or developers interested in 
 - Documentation and examples  
 - Almost anything you want to do 
 
-
 ### Naming Conventions
 
-To maintain readability and consistency across Helicon, follow these rules:
-
-#### Classes & Structs
-- `ClassName` — PascalCase for classes and structs  
-- Example: `Renderer`, `PhysicsSystem`
-
-#### Functions & Methods
-- `functionName` — camelCase for member and free functions  
-- Example: `updateFrame()`, `loadTexture()`
-
-#### Member Variables
-- `m_memberVariable` — prefix with `m_`  
-- Example: `m_position`, `m_velocity`
-
-#### Local Variables
-- `localVariable` — plain camelCase for function-local variables  
-- Example: `deltaTime`, `loopIndex`
-
-#### Static Variables
-- `s_staticVariable` — prefix with `s_`  
-- Example: `s_instanceCount`
-
-#### Boolean Variables
-- Use descriptive prefixes: `is`, `has`, `can`  
-- Example: `isVisible`, `hasFocus`, `canExecute`
-
-#### Macros
-- `MACRO_NAME` — all uppercase  
-- Example: `MAX_BUFFER_SIZE`
-
-#### Constants
-- `CONSTANT_NAME` — all uppercase  
-- Example: `PI`, `DEFAULT_SCREEN_WIDTH`
-
-#### Enum Values
-- `ENUM_VALUE` — all uppercase with underscores  
-- Example: `RENDER_MODE_WIREFRAME`
-
-#### Namespaces
-- `NamespaceName` — PascalCase  
-- Example: `Helicon::Renderer`
-
-#### File Names
-- Match the main class: `ClassName.h` / `ClassName.cpp`  
-- Example: `Renderer.h` / `Renderer.cpp`
-
----
+[View Naming Conventions](https://github.com/MiloPernemarkDEV/Helicon-Engine/blob/main/NAMING.litcoffee)
 
 ## Design Goals
 
@@ -122,5 +67,3 @@ To maintain readability and consistency across Helicon, follow these rules:
 - **Explicit Control** — Low-level access is preferred over heavy abstraction.  
 - **Scalability** — Designed to support both small and large projects.  
 - **Maintainability** — Clear system boundaries to reduce long-term complexity.
-
----
