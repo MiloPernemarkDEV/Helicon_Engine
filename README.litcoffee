@@ -114,11 +114,6 @@ To maintain readability and consistency across Helicon, follow these rules:
 - Match the main class: `ClassName.h` / `ClassName.cpp`  
 - Example: `Renderer.h` / `Renderer.cpp`
 
-#### Pointers & References (Optional)
-- `pPointer` — prefix pointers with `p_`  
-- `rReference` — prefix references with `r_`  
-- Example: `pTexture`, `rWindow`
-
 ---
 
 ## Design Goals
