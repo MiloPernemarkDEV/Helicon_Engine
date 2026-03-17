@@ -14,16 +14,12 @@ The core is always included and provides essential engine functionality. It is c
 ### Modules
 Modules are optional subsystems implemented as separate dynamic libraries. They can be included as needed, allowing developers to tailor the engine to their specific use case.
 
----
-
 ## Development Prerequisites
 
 - C++20
 - Visual Studio / CLion / Rider
 - Git
 - **Vulkan SDK**: Download from: [https://vulkan.lunarg.com/sdk/home](https://vulkan.lunarg.com/sdk/home)
-
----
 
 ## External Libraries
 
@@ -34,8 +30,6 @@ Modules are optional subsystems implemented as separate dynamic libraries. They 
 - stb_image
 - Assimp 
 - Dear ImGui (UI)
-
----
 
 ## Contributing
 
@@ -66,7 +60,6 @@ Contributions are welcome, especially from students or developers interested in 
 ### Naming Conventions
 
 [View Naming Conventions](https://github.com/MiloPernemarkDEV/Helicon-Engine/blob/main/NAMING.litcoffee)
----
 
 ## Design Goals
 
