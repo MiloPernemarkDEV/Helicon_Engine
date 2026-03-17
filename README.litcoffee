@@ -67,5 +67,3 @@ Contributions are welcome, especially from students or developers interested in 
 - **Explicit Control** — Low-level access is preferred over heavy abstraction.  
 - **Scalability** — Designed to support both small and large projects.  
 - **Maintainability** — Clear system boundaries to reduce long-term complexity.
-
----
