@@ -34,5 +34,5 @@ void create_instance(VkInstance& instance)
 	create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	create_info.pApplicationInfo = &app_info;
 
-	vkCreateInstance(&create_info, nullptr, &instance),
+	vkCreateInstance(&create_info, nullptr, &instance);
 }
