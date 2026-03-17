@@ -140,7 +140,6 @@
     <ClInclude Include="renderer_vulkan.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="renderer_vulkan.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
