@@ -6,35 +6,61 @@ To maintain readability and consistency across Helicon, follow these rules when 
 
 ## Classes & Structs
 - `ClassName` — PascalCase for classes and structs  
-- Example: `Renderer`, `PhysicsSystem`
+- Example:
+
+```cpp
+class Renderer {
+public:
+    void renderFrame();
+};
+
+struct PhysicsSystem {
+    void update();
+};
 
 ## Functions & Methods
 - `functionName` — camelCase for member and free functions  
-- Example: `updateFrame()`, `loadTexture()`
+- Example:
+
+```cpp
+void updateFrame();
+int calculateScore(int base, int bonus);
 
 ## Member Variables
 - `m_memberVariable` — prefix with `m_`  
-- Example: `m_position`, `m_velocity`
+- Example:
+
+```cpp
+class Player {
+    int m_health;
+    float m_speed;
+};
 
 ## Local Variables
 - `localVariable` — plain camelCase for function-local variables  
-- Example: `deltaTime`, `loopIndex`
+- Example:
+
+```cpp
+void movePlayer() {
+    float deltaTime = 0.016f;
+    int loopIndex = 0;
+}
 
 ## Static Variables
 - `s_staticVariable` — prefix with `s_`  
-- Example: `s_instanceCount`
+- Example:
 
-## Boolean Variables
-- Use descriptive prefixes: `is`, `has`, `can`  
-- Example: `isVisible`, `hasFocus`, `canExecute`
+```cpp
+class GameManager {
+    static int s_instanceCount;
+};
 
-## Macros
+## Macros & Constants
 - `MACRO_NAME` — all uppercase  
-- Example: `MAX_BUFFER_SIZE`
+- Example:
 
-## Constants
-- `CONSTANT_NAME` — all uppercase  
-- Example: `PI`, `DEFAULT_SCREEN_WIDTH`
+```cpp
+#define MAX_BUFFER_SIZE 1024
 
 ## Enum Values
 - Use **PascalCase** for enum names and their values  
@@ -49,7 +75,15 @@ enum class RenderMode {
 
 ## Namespaces
 - `NamespaceName` — PascalCase  
-- Example: `Helicon::Renderer`
+- Example:
+
+```cpp
+namespace Helicon {
+    class Renderer {
+    public:
+        void renderFrame();
+    };
+}
 
 ## File Names
 - Match the main class: `ClassName.h` / `ClassName.cpp`  
