@@ -37,8 +37,15 @@ To maintain readability and consistency across Helicon, follow these rules when 
 - Example: `PI`, `DEFAULT_SCREEN_WIDTH`
 
 ## Enum Values
-- `ENUM_VALUE` — all uppercase with underscores  
-- Example: `RENDER_MODE_WIREFRAME`
+- Use **PascalCase** for enum names and their values  
+- Example:
+
+```cpp
+enum class RenderMode {
+    Wireframe,
+    Solid,
+    Textured
+};
 
 ## Namespaces
 - `NamespaceName` — PascalCase  
