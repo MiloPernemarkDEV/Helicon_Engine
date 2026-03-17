@@ -2,16 +2,7 @@
 
 Helicon is a modular C++ game engine built around a core-and-module architecture, designed to provide explicit control, flexibility, and scalability.
 
-The engine consists of a central core (compiled as a dynamic library) and optional subsystems called modules. The core provides foundational systems required for all applications, while modules can be selectively included depending on project needs. This design prioritizes modularity, separation of concerns, and long-term maintainability.
-
----
-
-## Design Goals
-
-- **Modularity** — Systems are decoupled and can be added or removed without affecting the core.
-- **Explicit Control** — Low-level access is preferred over heavy abstraction.
-- **Scalability** — Designed to support both small and large projects.
-- **Maintainability** — Clear system boundaries to reduce long-term complexity.
+The engine consists of a central core dll and optional subsystems called modules. The core provides foundational systems required for all applications, while modules can be selectively included depending on project needs. This design prioritizes modularity, separation of concerns, and long-term maintainability.
 
 ---
 
@@ -27,44 +18,12 @@ Modules are optional subsystems implemented as separate dynamic libraries. They 
 
 ---
 
-## Core Systems
-
-These systems are always included and form the foundation of the engine.
-
-### Logger
-Centralized logging system with support for severity levels, debugging output, and runtime diagnostics.
-
-### Platform Layer
-Abstracts platform-specific functionality such as window creation, input handling, and OS interaction, enabling cross-platform support.
-
-### Asset / Resource System
-Handles loading, caching, and lifetime management of assets (textures, models, shaders) to ensure efficient memory usage.
-
-### Job System
-Lightweight multithreading system for scheduling and executing tasks across multiple threads.
-
----
-
-## Modules
-
-Modules are optional subsystems that can be included as needed.
-
-### UI Abstraction Layer
-Provides a unified interface for UI systems (such as ImGui), allowing the underlying implementation to be swapped without affecting engine code.
-
-### In-Game Overlay Editor
-Runtime debugging and editing tools for inspecting and modifying game state in real time.
-
-### Vulkan Rendering Abstraction Layer
-Encapsulates low-level Vulkan API complexity into a structured and reusable rendering interface.
-
----
-
 ## Development Prerequisites
 
 - C++20
 - Visual Studio / CLion / Rider
 - Git
+- **Vulkan SDK**: Download from: [https://vulkan.lunarg.com/sdk/home](https://vulkan.lunarg.com/sdk/home)
 
 ---
 
@@ -73,25 +32,10 @@ Encapsulates low-level Vulkan API complexity into a structured and reusable rend
 - STL
 - Win32 (Windows platform layer)
 - X11 (Linux platform layer)
-
----
-
-## Example Naming Conventions
-
-- `renderer-physicaldevice-milo`
-- `renderer-milo` (for broader work)
-
----
-
-## Project Status
-
-Helicon is currently in active development. Core systems are being established and expanded, while modules are implemented incrementally.
-
----
-
-## Philosophy
-
-Helicon prioritizes modularity and explicit system design over heavy abstraction. The goal is to provide a flexible foundation where systems are transparent, composable, and easy to reason about.
+- Vulkan Graphics API
+- stb_image
+- Assimp 
+- Dear ImGui (UI)
 
 ---
 
@@ -102,20 +46,16 @@ Contributions are welcome, especially from students or developers interested in 
 ### Getting Started
 
 1. Fork the repository  
-2. Create a new branch: git checkout -b feature/your-feature-name
+2. Create a new branch: git checkout -b feature/your-feature-name  
 3. Make your changes with clear, focused commits  
 4. Push your branch and open a pull request  
 
----
-
 ### Guidelines
 
-- Keep systems modular and decoupled from the core  
-- Follow existing naming conventions and code style  
-- Avoid unnecessary abstractions  
-- Prefer clarity and explicit behavior over “clever” solutions  
-
----
+- Have fun!
+- Follow existing naming conventions and code style (found below)
+- Avoid unnecessary abstractions, an article on "clean" code by Casey Muratori - https://www.computerenhance.com/p/clean-code-horrible-performance
+- Prefer clarity and explicit behavior
 
 ### Areas for Contribution
 
@@ -123,9 +63,64 @@ Contributions are welcome, especially from students or developers interested in 
 - Platform layer improvements  
 - Debugging and profiling tools  
 - Documentation and examples  
+- Almost anything you want to do 
+
+
+### Naming Conventions
+
+To maintain readability and consistency across Helicon, follow these rules:
+
+#### Classes & Structs
+- `ClassName` — PascalCase for classes and structs  
+- Example: `Renderer`, `PhysicsSystem`
+
+#### Functions & Methods
+- `functionName` — camelCase for member and free functions  
+- Example: `updateFrame()`, `loadTexture()`
+
+#### Member Variables
+- `m_memberVariable` — prefix with `m_`  
+- Example: `m_position`, `m_velocity`
+
+#### Local Variables
+- `localVariable` — plain camelCase for function-local variables  
+- Example: `deltaTime`, `loopIndex`
+
+#### Static Variables
+- `s_staticVariable` — prefix with `s_`  
+- Example: `s_instanceCount`
+
+#### Boolean Variables
+- Use descriptive prefixes: `is`, `has`, `can`  
+- Example: `isVisible`, `hasFocus`, `canExecute`
+
+#### Macros
+- `MACRO_NAME` — all uppercase  
+- Example: `MAX_BUFFER_SIZE`
+
+#### Constants
+- `CONSTANT_NAME` — all uppercase  
+- Example: `PI`, `DEFAULT_SCREEN_WIDTH`
+
+#### Enum Values
+- `ENUM_VALUE` — all uppercase with underscores  
+- Example: `RENDER_MODE_WIREFRAME`
+
+#### Namespaces
+- `NamespaceName` — PascalCase  
+- Example: `Helicon::Renderer`
+
+#### File Names
+- Match the main class: `ClassName.h` / `ClassName.cpp`  
+- Example: `Renderer.h` / `Renderer.cpp`
 
 ---
 
-### Notes
+## Design Goals
 
-This project is primarily developed as a learning and exploration platform for engine development. Contributions should align with the overall design goals of modularity, simplicity, and explicit control.
+- **Modularity** — Systems are decoupled and can be added or removed without affecting the core.  
+- **Explicit Control** — Low-level access is preferred over heavy abstraction.  
+- **Scalability** — Designed to support both small and large projects.  
+- **Maintainability** — Clear system boundaries to reduce long-term complexity.
+
+---
