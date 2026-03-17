@@ -2,10 +2,13 @@
 #include <vulkan/vulkan.h>
 #include "Validation.h"
 
-class Instance {
+class InstanceWrapper {
 public:
-	Instance(Validation& validation, const std::vector<const char*>& extensions);
-	~Instance() = default;
+
+	// Constructors 
+	InstanceWrapper() = default;
+	InstanceWrapper(Validation& validation, const std::vector<const char*>& extensions);
+	~InstanceWrapper() = default;
 
 	VkInstance getInstance() const { return instance_; }
 
@@ -24,5 +27,4 @@ private:
 	Validation* validation_ = nullptr;
 	std::vector<const char*> extensions_;
 	const std::vector<const char*>& layers_;
-
 };

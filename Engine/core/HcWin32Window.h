@@ -34,6 +34,4 @@ private:
     HINSTANCE m_hInstance = nullptr;
     bool      m_shouldClose = false;
     HANDLE m_hSplashImage = nullptr;
-
-
 };

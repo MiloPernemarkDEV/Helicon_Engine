@@ -1,6 +1,13 @@
 #include "Validation.h"
 #include <stdexcept>
+#include "InstanceWrapper.h"  
 
+
+
+Validation::Validation(InstanceWrapper& instance)
+    : instance_(&instance)
+{
+}
 
 bool Validation::checkValidationLayerSupport() const {
     uint32_t layerCount;
@@ -53,19 +60,19 @@ void Validation::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInf
     createInfo.pfnUserCallback = debugCallback;
 }
 
-void Validation::setup(VkInstance instance) {
+void Validation::setup() {
     if (!enableValidationLayers) return;
     VkDebugUtilsMessengerCreateInfoEXT createInfo;
     populateDebugMessengerCreateInfo(createInfo);
 
-    if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger_) != VK_SUCCESS) {
+    if (CreateDebugUtilsMessengerEXT(instance_->getInstance(), &createInfo, nullptr, &debugMessenger_) != VK_SUCCESS) {
         throw std::runtime_error("Failed to set up debug messenger!");
     }   
 }
 
-void Validation::destroy(VkInstance instance) {
+void Validation::destroy() {
     if (enableValidationLayers) {
-        DestroyDebugUtilsMessengerEXT(instance, debugMessenger_, nullptr);
+        DestroyDebugUtilsMessengerEXT(instance_->getInstance(), debugMessenger_, nullptr);
     }
 }
 

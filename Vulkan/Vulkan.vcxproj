@@ -19,23 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Instance.cpp" />
-    <ClCompile Include="src\PhysicalDevice.cpp" />
-    <ClCompile Include="src\Queues.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\Validation.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Shaders\shader.frag" />
     <None Include="Shaders\shader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Instance.h" />
+    <ClCompile Include="src\InstanceWrapper.cpp" />
+    <ClCompile Include="src\LogicalDevice.cpp" />
+    <ClCompile Include="src\PhysicalDevice.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Surface.cpp" />
+    <ClCompile Include="src\Validation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\InstanceWrapper.h" />
     <ClInclude Include="src\IRenderer.h" />
+    <ClInclude Include="src\LogicalDevice.h" />
     <ClInclude Include="src\PhysicalDevice.h" />
     <ClInclude Include="src\Queues.h" />
     <ClInclude Include="src\RendDefines.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Surface.h" />
     <ClInclude Include="src\Validation.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -92,6 +95,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
+    <LibraryPath>C:\Dev\PersonalProjects\HeliconEngine\bin\Debug-x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
@@ -135,7 +139,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VULKAN_SDK)\Lib;$(SolutionDir)\libraries\lib;$(SolutionDir]\libraries;$(SolutionDir)\bin\Debug-x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

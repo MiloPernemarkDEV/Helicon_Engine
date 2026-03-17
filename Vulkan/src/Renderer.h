@@ -1,7 +1,10 @@
 #pragma once
 #include "IRenderer.h"
-#include "Instance.h"
+#include "InstanceWrapper.h"
 #include "Validation.h"
+#include "Surface.h"
+#include "PhysicalDevice.h"
+#include "LogicalDevice.h"
 
 
 class Renderer : public IRenderer {
@@ -13,6 +16,10 @@ public:
 private:
     Validation validation_; 
     std::vector<const char*> extensions_;
-    Instance instance_;
+    InstanceWrapper instance_;
+    Surface surface_;
+    PhysicalDevice physicalDevice_;
+    LogicalDevice logicalDevice_;
+
     
 };

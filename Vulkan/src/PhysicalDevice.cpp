@@ -1,23 +1,27 @@
 #include "PhysicalDevice.h"
-
 #include <stdexcept>
 #include <vector>
-
 #include "Queues.h"
 
-void PhysicalDevice::setup(VkInstance instance) {
+
+PhysicalDevice::PhysicalDevice(InstanceWrapper& instance, Surface& surface)
+	: instance_(&instance), surface_(&surface)
+{
+}
+
+void PhysicalDevice::setup() {
 	std::uint32_t deviceCount = 0;
-	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+	vkEnumeratePhysicalDevices(instance_->getInstance(), &deviceCount, nullptr);
 
 	if (deviceCount == 0) {
 		throw std::runtime_error("failed to find GPUs with Vulkan support");
 	}
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
-	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+	vkEnumeratePhysicalDevices(instance_->getInstance(), &deviceCount, devices.data());
 
 	for (const auto& device : devices) {
-		if (isDeviceSuitable(device)) {
+		if (isDeviceSuitable(device, surface_->getSurface())) {
 			physicalDevice_ = device;
 			break;
 		}
@@ -33,8 +37,8 @@ void PhysicalDevice::setup(VkInstance instance) {
 	}
 }
 
-bool isDeviceSuitable(VkPhysicalDevice device) {
-	QueueFamilyIndices indices = findQueueFamilies(device);
+bool PhysicalDevice::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface) {
+	QueueFamilyIndices indices = findQueueFamilies(device, surface_->getSurface());
 
 	return indices.isComplete();
 }

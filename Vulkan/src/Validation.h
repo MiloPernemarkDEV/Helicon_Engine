@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 
+class InstanceWrapper;
+
 #ifdef _DEBUG
 static constexpr bool enableValidationLayers = true;
 #else
@@ -13,14 +15,15 @@ class Validation
 {
 public:
     Validation() = default;
+    Validation(InstanceWrapper& instance);
     ~Validation() = default;
 
     bool checkValidationLayerSupport() const;
     std::vector<const char*> getRequiredExtensions() const;
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& create_info) const;
 
-    void setup(VkInstance instance);
-    void destroy(VkInstance instance);
+    void setup();
+    void destroy();
 
     VkDebugUtilsMessengerEXT getMessenger() const { return debugMessenger_; }
     const std::vector<const char*>& getValidationlayers() const {return validationLayers_; }
@@ -28,8 +31,6 @@ public:
 
 private:
     VkDebugUtilsMessengerEXT debugMessenger_ = VK_NULL_HANDLE;
-    VkInstance instance_ = VK_NULL_HANDLE; 
-
     static VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
     static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -40,6 +41,8 @@ private:
     inline static const std::vector<const char*> validationLayers_ = {
       "VK_LAYER_KHRONOS_validation"
     };
+
+    InstanceWrapper* instance_;
 };
 
 

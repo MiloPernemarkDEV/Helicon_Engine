@@ -1,11 +1,11 @@
-#include "Instance.h"
+#include "InstanceWrapper.h"
 
-Instance::Instance(Validation& validation, const std::vector<const char*>& extensions)
+InstanceWrapper::InstanceWrapper(Validation& validation, const std::vector<const char*>& extensions)
     : validation_(&validation), extensions_(extensions), layers_(validation.getValidationlayers())
 {
 }
 
-void Instance::setup() {
+void InstanceWrapper::setup() {
     if (enableValidationLayers && !validation_->checkValidationLayerSupport())
     {
         throw std::runtime_error("Validation layers requested, but not available!");
@@ -28,14 +28,14 @@ void Instance::setup() {
     }
 }
 
-void Instance::destroy()
+void InstanceWrapper::destroy()
 {
     if (instance_ != VK_NULL_HANDLE) {
         vkDestroyInstance(instance_, nullptr);
     }
 }
 
-void Instance::populateInstanceCreateInfo(
+void InstanceWrapper::populateInstanceCreateInfo(
     VkInstanceCreateInfo& createInfo,
     VkApplicationInfo& appInfo,
     VkDebugUtilsMessengerCreateInfoEXT& debugCreateInfo) 

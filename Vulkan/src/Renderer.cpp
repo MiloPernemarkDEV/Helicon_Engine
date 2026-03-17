@@ -1,6 +1,5 @@
 #include "Renderer.h"
 #include <stdexcept>
-#include "Instance.h"
 
 // Each wrapper class owns exactly one Vulkan object.
 // Every wrapper provides a getter for its underlying handle.
@@ -9,7 +8,12 @@
 // Pass any required handles via the wrapper's getter in the constructor or setup.
 
 Renderer::Renderer()
-    :instance_(validation_, extensions_)
+    :
+    instance_(validation_, extensions_), 
+    validation_(instance_), 
+    physicalDevice_(instance_, surface_),
+    logicalDevice_(validation_, physicalDevice_, surface_),
+    surface_(instance_)
 {
 }
 
@@ -19,8 +23,10 @@ bool Renderer::Initialize(HWND hWnd, HINSTANCE hInstance)
     instance_.setExtensions(requiredExtensions);
 
     instance_.setup();
-
-    validation_.setup(instance_.getInstance());
+    surface_.setup(hWnd, hInstance);
+    physicalDevice_.setup();
+    logicalDevice_.setup();
+    validation_.setup();
     return true;
 }
 
@@ -28,7 +34,8 @@ void Renderer::Shutdown()
 {
 
 
-    validation_.destroy(instance_.getInstance());
+    validation_.destroy();
+    surface_.destroy();
     instance_.destroy();
 }
 
