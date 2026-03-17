@@ -430,3 +430,7 @@ bin-int/
 *.recipe
 Logs/
 glm/
+
+# JetBrains IDEs
+.idea/
+*.iml
