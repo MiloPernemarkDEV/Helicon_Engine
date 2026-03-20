@@ -12,10 +12,12 @@ bool core_initialize_window(core_window& window, window_backend backend, i32 wid
 	switch (backend) {
 #ifdef _WIN32	
 	case window_backend::Win32:
+		std::cout << "Plat_Init Win32\n";
 		return core_initialize_win32(window, width, height, title);
 #endif
 #ifdef __linux__
 	case window_backend::X11:
+		std::cout << "Plat_Init x11\n";
 		return core_initialize_x11(window, width, height, title);
 #endif
 	default:

@@ -85,9 +85,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\Sandbox\$(Configuration)\</IntDir>
+    <LibraryPath>C:\VulkanSDK\1.4.335.0\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VulkanSDK\1.4.335.0\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
+    <LibraryPath>C:\VulkanSDK\1.4.335.0\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VulkanSDK\1.4.335.0\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(OutDir);$(SolutionDir)Engine;$(SolutionDir);$(SolutionDir)libraries\include;$(SolutionDir)Engine\renderer;$(SolutionDir)Engine\math;$(SolutionDir)Sandbox;$(SolutionDir)\Vulkan\src;$(VULKAN_SDK)\Include;$(SolutionDir)\Engine\core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);$(SolutionDir)Engine;$(SolutionDir);$(SolutionDir)libraries\include;$(SolutionDir)Engine\renderer;$(SolutionDir)Engine\math;$(SolutionDir)Sandbox;$(SolutionDir)\Vulkan\src;$(VULKAN_SDK)\Include;$(SolutionDir)\Engine\core;$(SolutionDir)\Renderer</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <UseFullPaths>false</UseFullPaths>
     </ClCompile>
@@ -136,7 +140,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\Debug;$(SolutionDir)bin\Debug-x64;C:\Dev\PersonalProjects\HeliconEngine\libraries\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Platform.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Platform.lib;User32.lib;Gdi32.lib;Renderer.lib;vulkan-1.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,13 +152,13 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(OutDir);$(SolutionDir)Engine;$(SolutionDir);$(SolutionDir)libraries\include;$(SolutionDir)Engine\renderer;$(SolutionDir)Engine\math;$(SolutionDir)Sandbox;$(SolutionDir)\Vulkan\src;$(VULKAN_SDK)\Include;$(SolutionDir)\Engine\core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);$(SolutionDir)Engine;$(SolutionDir);$(SolutionDir)libraries\include;$(SolutionDir)Engine\renderer;$(SolutionDir)Engine\math;$(SolutionDir)Sandbox;$(SolutionDir)\Vulkan\src;$(VULKAN_SDK)\Include;$(SolutionDir)\Engine\core;$(SolutionDir)\Renderer</AdditionalIncludeDirectories>
       <UseFullPaths>false</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Platform.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Platform.lib;User32.lib;Gdi32.lib;Renderer.lib;vulkan-1.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\Debug;$(SolutionDir)bin\Debug-x64;C:\Dev\PersonalProjects\HeliconEngine\libraries\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
