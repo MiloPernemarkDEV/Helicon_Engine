@@ -18,8 +18,7 @@ std::vector<const char*> get_required_extensions() {
 	extensions.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
 #endif
 
-	// Optional: add validation layer extension
-	// extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+	// add validation layer extension
 
 	return extensions;
 }
