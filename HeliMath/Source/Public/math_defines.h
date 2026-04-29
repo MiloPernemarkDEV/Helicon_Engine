@@ -1,7 +1,7 @@
 #pragma once
 
 #if defined(_MSC_VER)
-#define FORCE_INLINE __forceinline
+#define HELI_FORCE_INLINE __forceinline
 #elif defined(__GNU__) || defined(__clang__)
 #define FORCE_INLINE inline __attribute__((always_inline))
 #else 

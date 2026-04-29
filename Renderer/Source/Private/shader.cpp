@@ -1,5 +1,6 @@
 #include "shader.h"
 #include <filesystem>
+#include "engine_assert.h"
 
 bool shader_create(shader* shader)
 {
@@ -89,25 +90,19 @@ void shader_use(shader* shader)
 
 void shader_set_bool(shader* shader, const std::string& name, bool value)
 {
-    if (!shader) {
-        throw std::runtime_error("ERROR::PASSED_NULLPTR");
-    }
+    RT_ASSERT(shader != nullptr, "Error Passed nullptr!");
     glUniform1i(glGetUniformLocation(shader->ID, name.c_str()), (int)value);
 }
 
 void shader_set_int(shader* shader, const std::string& name, int value)
 {
-    if (!shader) {
-        throw std::runtime_error("ERROR::PASSED_NULLPTR");
-    }
+    RT_ASSERT(shader != nullptr, "Error Passed nullptr!");
     glUniform1i(glGetUniformLocation(shader->ID, name.c_str()), value);
 }
 
 void shader_set_float(shader* shader, const std::string& name, float value)
 {
-    if (!shader) {
-        throw std::runtime_error("ERROR::PASSED_NULLPTR");
-    }
+    RT_ASSERT(shader != nullptr, "Error Passed nullptr!");
     glUniform1f(glGetUniformLocation(shader->ID, name.c_str()), value);
 
 }

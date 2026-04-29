@@ -7,8 +7,6 @@
 
 #include <GLFW/glfw3.h>
 
-
-
 struct Application
 {
 	AppConfig app_config{};
