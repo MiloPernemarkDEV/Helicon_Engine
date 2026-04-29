@@ -75,7 +75,7 @@ struct vec3 {
 		return x * other.x + y * other.y + z * other.z;
 	}
 
-	HELI_FORCE_INLINE constexpr float distanceSquared(const vec3& other) const
+	HELI_FORCE_INLINE constexpr float distance_squared(const vec3& other) const
 	{
 		float distanceX = x - other.x;
 		float distanceY = y - other.y;
@@ -88,15 +88,15 @@ struct vec3 {
 
 	HELI_FORCE_INLINE  float distance(const vec3& other) const
 	{
-		return std::sqrt(distanceSquared(other));
+		return std::sqrt(distance_squared(other));
 	}
-	HELI_FORCE_INLINE float magnitudeSquared() const
+	HELI_FORCE_INLINE float magnitude_squared() const
 	{
 		return (dot(*this));
 	}
 	HELI_FORCE_INLINE float magnitude() const
 	{
-		return std::sqrt(magnitudeSquared());
+		return std::sqrt(magnitude_squared());
 	}
 
 	HELI_FORCE_INLINE vec3 normalize() const
@@ -110,9 +110,9 @@ struct vec3 {
 		);
 	}
 
-	HELI_FORCE_INLINE bool isNormalized() const
+	HELI_FORCE_INLINE bool is_normalized() const
 	{
-		return isFloatCloseEnough(magnitudeSquared(), 1.0f);
+		return is_float_close_enough(magnitude_squared(), 1.0f);
 	}
 
 	HELI_FORCE_INLINE vec3 lerp(const vec3& other, float t) const
@@ -137,7 +137,7 @@ struct vec3 {
 	{
 		// relfection of zero vector is zero vector
 		if (std::abs(magnitude()) < FLT_EPSILON || std::abs(other.magnitude()) < FLT_EPSILON) return *this;
-		vec3 n = other.isNormalized() ? other : other.normalize();
+		vec3 n = other.is_normalized() ? other : other.normalize();
 		// Clamp to avoid NaN from precision errors in acos
 		float s = 2.0f * dot(n);
 		return *this - (n * s);
@@ -194,10 +194,10 @@ struct vec3 {
 
 	HELI_FORCE_INLINE bool operator ==(const vec3& other) const
 	{
-		return (isFloatCloseEnough(x, other.x) && isFloatCloseEnough(y, other.y) && isFloatCloseEnough(z, other.z));
+		return (is_float_close_enough(x, other.x) && is_float_close_enough(y, other.y) && is_float_close_enough(z, other.z));
 	}
 
-	HELI_FORCE_INLINE  static bool isFloatCloseEnough(float a, float b, float precision = 1e-4f)
+	HELI_FORCE_INLINE  static bool is_float_close_enough(float a, float b, float precision = 1e-4f)
 	{
 		return std::abs(b - a) <= precision;
 	}
