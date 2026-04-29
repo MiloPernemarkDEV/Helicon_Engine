@@ -4,6 +4,7 @@
 namespace math_tests {
 	void run_mat4x4_tests();
 	void test_mat4x4_transpose(Mat4x4& a);
+	void test_mat4x4_scalar_multiplication();
 }
 
 

@@ -8,6 +8,7 @@ namespace math_tests {
 		Mat4x4 a{};
 		a.m12 = 1.0f;
 		test_mat4x4_transpose(a);
+		test_mat4x4_scalar_multiplication();
 	}
 
 	// If we transpose a matrix, then transpose it again we should get the original matrix 
@@ -26,6 +27,17 @@ namespace math_tests {
 
 		assert(a == temp);
 		std::cout << "============ SUCCESS ============\n";
+	}
+
+	void test_mat4x4_scalar_multiplication() {
+		Mat4x4 a{};
+		std::cout << "============ TEST_MAT4X4_SCALAR_MULTIPLICATION ============\n";
+		std::cout << "Mat4x4 A\n" << a << "\n";
+
+		Mat4x4 b{};
+		b.m12 = 10.0f;
+		std::cout << "Mat4x4 B\n" << b << "\n";
+		std::cout << "RESULT = " << a * b << "\n";
 	}
 
 }

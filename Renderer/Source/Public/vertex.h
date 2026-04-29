@@ -4,6 +4,6 @@
 
 struct Vertex
 {
-	vec3 positions;
+	vec4 positions;
 };
 

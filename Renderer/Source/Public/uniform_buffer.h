@@ -10,7 +10,7 @@ struct GlobalUBOData
     // glm::mat4 view;
     // glm::mat4 projection;
 
-    vec3 camera_position;
+    vec4 camera_position;
     float delta_time;
 
     float time;

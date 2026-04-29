@@ -23,7 +23,7 @@ void renderer_cleanup();
 
 void renderer_set_wireframe(bool value);
 
-inline vec3 vertices[] = {
+inline vec4 vertices[] = {
 	{-0.5f, -0.5, 0.0f},
 	{0.0f, 0.5, 0.0f},
 	{0.5f, -0.5f, 0.0f}

@@ -28,5 +28,8 @@
     <ClInclude Include="Source\Public\mat4x4.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\math_util.h">
+      <Filter>Public</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

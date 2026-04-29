@@ -10,3 +10,8 @@ std::ostream& operator<<(std::ostream& out, const Mat4x4& a)
 
     return out;
 }
+
+HELI_FORCE_INLINE bool fclose_enough(float a, float b, float eps = 0.00001f)
+{
+    return std::fabs(a - b) < eps;
+}
