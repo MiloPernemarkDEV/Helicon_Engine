@@ -31,5 +31,8 @@
     <ClInclude Include="Source\Public\vec4.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\vec2.h">
+      <Filter>Public</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

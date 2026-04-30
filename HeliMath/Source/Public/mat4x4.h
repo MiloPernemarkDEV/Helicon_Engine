@@ -179,8 +179,6 @@ struct Mat4x4 {
 		return r;
 	}
 
-
-
 	HELI_FORCE_INLINE static Mat4x4 reflect_plane(const Vec3& n) noexcept {
 		Mat4x4 r{};	
 

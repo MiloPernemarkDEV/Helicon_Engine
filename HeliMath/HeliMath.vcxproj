@@ -146,6 +146,7 @@
     <ClInclude Include="Source\Public\mat4x4.h" />
     <ClInclude Include="Source\Public\math_defines.h" />
     <ClInclude Include="Source\Public\math_util.h" />
+    <ClInclude Include="Source\Public\vec2.h" />
     <ClInclude Include="Source\Public\vec3.h" />
     <ClInclude Include="Source\Public\vec4.h" />
   </ItemGroup>
