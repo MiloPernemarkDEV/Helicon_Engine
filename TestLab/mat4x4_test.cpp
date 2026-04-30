@@ -5,10 +5,7 @@
 namespace math_tests {
 
 	void run_mat4x4_tests() {
-		Mat4x4 a{};
-		a.m12 = 1.0f;
-		test_mat4x4_transpose(a);
-		test_mat4x4_scalar_multiplication();
+		test_mat4x4_matrix_multiplication();
 	}
 
 	// If we transpose a matrix, then transpose it again we should get the original matrix 
@@ -38,6 +35,19 @@ namespace math_tests {
 		b.m12 = 10.0f;
 		std::cout << "Mat4x4 B\n" << b << "\n";
 		std::cout << "RESULT = " << a * b << "\n";
+	}
+
+	void test_mat4x4_matrix_multiplication() {
+		std::cout << "============ TEST_MAT4X4_MATRIX_MULTIPLICATION ============\n";
+		Mat4x4 a{};
+		a.m12 = 15.0f;
+		std::cout << "Mat4x4 A\n" << a << "\n";
+
+		Mat4x4 b{};
+		std::cout << "Mat4x4 B\n" << b << "\n";
+
+		std::cout << "A * B = \n" << a * b << "\n";
+		
 	}
 
 }

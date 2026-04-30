@@ -1,15 +1,16 @@
 #pragma once 
 
-#include "math_defines.h"
-#include "vec3.h"
 #include <cmath>
 #include <ostream>
+#include "math_defines.h"
 #include "math_util.h" 
+#include "vec2.h"
+#include "vec3.h"
+#include "vec4.h"
 
 // First take on a square 4x4 matrix, later a lot of the calculations 
-// such as the matrix multiplication can be refactored into loops/simd 
+// such as the matrix multiplication will be optimized 
 struct Mat4x4 {
-	// OpenGl uses column major m[column][row] 
 	float m11, m12, m13, m14,
 		m21, m22, m23, m24,
 		m31, m32, m33, m34,
@@ -27,8 +28,10 @@ struct Mat4x4 {
 	}
 
 	// Transposing a matrix flips it diagonally 
-	HELI_FORCE_INLINE void transpose() {
-		Mat4x4 r{};
+	// Because we use row major vectors and opengl uses column vectors 
+	// We need to transpose the matrices before we send them to the GPU 
+	HELI_FORCE_INLINE void transpose() noexcept {
+		Mat4x4 r;
 
 		r.m11 = m11; r.m12 = m21; r.m13 = m31; r.m14 = m41;
 		r.m21 = m12; r.m22 = m22; r.m23 = m32; r.m24 = m42;
@@ -37,13 +40,12 @@ struct Mat4x4 {
 			
 		*this = r;
 	}
-
+	
 	// Each element is computed as a dot product between a row of 'this'
 	// and a column of the other matrix
-	HELI_FORCE_INLINE Mat4x4 operator*(const Mat4x4& o) const
+	HELI_FORCE_INLINE Mat4x4 operator*(const Mat4x4& o) const noexcept
 	{
 		Mat4x4 r{};
-
 		r.m11 = m11 * o.m11 + m12 * o.m21 + m13 * o.m31 + m14 * o.m41;
 		r.m12 = m11 * o.m12 + m12 * o.m22 + m13 * o.m32 + m14 * o.m42;
 		r.m13 = m11 * o.m13 + m12 * o.m23 + m13 * o.m33 + m14 * o.m43;
@@ -68,7 +70,7 @@ struct Mat4x4 {
 	}
 
 	// Scalar multiplication 
-	HELI_FORCE_INLINE Mat4x4 operator*(float s) const
+	HELI_FORCE_INLINE Mat4x4 operator*(const float s) const noexcept
 	{
 		Mat4x4 r = *this;
 		r.m11 *= s; r.m12 *= s; r.m13 *= s; r.m14 *= s;
@@ -78,27 +80,240 @@ struct Mat4x4 {
 		return r;
 	}
 
-	HELI_FORCE_INLINE bool operator==(const Mat4x4& o) const
+	HELI_FORCE_INLINE bool operator==(const Mat4x4& m) const noexcept
 	{
 		return
-		MathUtil::is_nearly_equal(m11, o.m11) && MathUtil::is_nearly_equal(m12, o.m12) &&
-		MathUtil::is_nearly_equal(m13, o.m13) && MathUtil::is_nearly_equal(m14, o.m14) &&
+			MathUtil::is_nearly_equal(m11, m.m11) && MathUtil::is_nearly_equal(m12, m.m12) &&
+			MathUtil::is_nearly_equal(m13, m.m13) && MathUtil::is_nearly_equal(m14, m.m14) &&
 
-		MathUtil::is_nearly_equal(m21, o.m21) && MathUtil::is_nearly_equal(m22, o.m22) &&
-		MathUtil::is_nearly_equal(m23, o.m23) && MathUtil::is_nearly_equal(m24, o.m24) &&
+			MathUtil::is_nearly_equal(m21, m.m21) && MathUtil::is_nearly_equal(m22, m.m22) &&
+			MathUtil::is_nearly_equal(m23, m.m23) && MathUtil::is_nearly_equal(m24, m.m24) &&
 
-		MathUtil::is_nearly_equal(m31, o.m31) && MathUtil::is_nearly_equal(m32, o.m32) &&
-		MathUtil::is_nearly_equal(m33, o.m33) && MathUtil::is_nearly_equal(m34, o.m34) &&
+			MathUtil::is_nearly_equal(m31, m.m31) && MathUtil::is_nearly_equal(m32, m.m32) &&
+			MathUtil::is_nearly_equal(m33, m.m33) && MathUtil::is_nearly_equal(m34, m.m34) &&
 
-		MathUtil::is_nearly_equal(m41, o.m41) && MathUtil::is_nearly_equal(m42, o.m42) &&
-		MathUtil::is_nearly_equal(m43, o.m43) && MathUtil::is_nearly_equal(m44, o.m44);
+			MathUtil::is_nearly_equal(m41, m.m41) && MathUtil::is_nearly_equal(m42, m.m42) &&
+			MathUtil::is_nearly_equal(m43, m.m43) && MathUtil::is_nearly_equal(m44, m.m44);
+	}
+
+	HELI_FORCE_INLINE static Mat4x4 create_scale_2d(const Vec2& v) noexcept {
+		Mat4x4 r = {};
+		r.m11 = v.x;
+		r.m22 = v.y;
+
+		return r;
+	}
+
+	// uniform and nonuniform scaling
+	HELI_FORCE_INLINE static Mat4x4 scale(const Vec3& v) noexcept {
+		Mat4x4 r{};
+		r.m11 = v.x;
+		r.m22 = v.y;
+		r.m33 = v.z;
+		return r;
+	}
+
+	// Counter clockwise rotation = positive, clockwise rotation = negative 
+	HELI_FORCE_INLINE static Mat4x4 rotate_2d(const float angle) noexcept {
+		float cos_angle = std::cos(angle);
+		float sin_angle = std::sin(angle);
+
+		Mat4x4 r{};
+
+		r.m11 = cos_angle; r.m12 = -sin_angle;
+		r.m21 = sin_angle; r.m22 = cos_angle;
+
+		return r;
+	}
+
+	HELI_FORCE_INLINE static Mat4x4 euler(const Vec3& v) noexcept {
+		float cos_x = std::cos(v.x);
+		float sin_x = std::sin(v.x);
+
+		float cos_y = std::cos(v.y);
+		float sin_y = std::sin(v.y);
+
+		float cos_z = std::cos(v.z);
+		float sin_z = std::sin(v.z);
+
+		Mat4x4 r{};
+
+		r.m11 = cos_y * cos_z + sin_y * sin_x * sin_z;
+		r.m12 = cos_z * sin_y * sin_x - cos_y * sin_z;
+		r.m13 = cos_x * sin_y;
+
+		r.m21 = cos_x * sin_z;
+		r.m22 = cos_x * cos_z;
+		r.m23 = -sin_x;
+
+		r.m31 = cos_y * sin_x * sin_z - cos_z * sin_y;
+		r.m32 = sin_y * sin_z + cos_y * cos_z * sin_x;
+		r.m33 = cos_x * cos_y;
+
+		return r;
+	}
+
+	// Projects a 3D point onto the axis by zeroing out the other axes   
+	// m11(x), m22(y), m33(z) 
+	HELI_FORCE_INLINE static Mat4x4 project_x() noexcept {
+		Mat4x4 r{};
+		r.m22 = 0.0f; 
+		r.m33 = 0.0f; 
+		return r;
+	}
+	HELI_FORCE_INLINE static Mat4x4 project_y() noexcept {
+		Mat4x4 r{};
+		r.m11 = 0.0f;
+		r.m33 = 0.0f;
+		return r;
+	}
+	HELI_FORCE_INLINE static Mat4x4 project_z() noexcept {
+		Mat4x4 r{};
+		r.m11 = 0.0f;
+		r.m22 = 0.0f;
+		return r;
+	}
+	HELI_FORCE_INLINE static Mat4x4 project_xy() noexcept {
+		Mat4x4 r{};
+		r.m33 = 0.0f;
+		return r;
+	}
+
+
+
+	HELI_FORCE_INLINE static Mat4x4 reflect_plane(const Vec3& n) noexcept {
+		Mat4x4 r{};	
+
+		r.m11 = 1.0f - 2.0f * n.x * n.x;
+		r.m22 = 1.0f - 2.0f * n.y * n.y;
+		r.m33 = 1.0f - 2.0f * n.z * n.z;
+
+		r.m12 = -2.0f * n.x * n.y;
+		r.m21 = -2.0f * n.y * n.x;
+
+		r.m13 = -2.0f * n.x * n.z;
+		r.m31 = -2.0f * n.z * n.x;
+
+		r.m23 = -2.0f * n.y * n.z;
+		r.m32 = -2.0f * n.z * n.y;
+
+		return r;
+	}
+
+	// reflecting the x axis can be used for optimizing assets 
+	// only left side of models can be loaded then we can reflect the right side 
+	HELI_FORCE_INLINE static Mat4x4 reflect_x() noexcept {
+		Mat4x4 r{};
+
+		r.m11 = -1.0f;
+		r.m22 = 1.0f;
+		r.m33 = 1.0f;
+
+		return r;
+	}
+	// reflecting the y axis can be used for water surface reflection but its limited in usage 
+	// much more performant than plane reflection though 
+	HELI_FORCE_INLINE static Mat4x4 reflect_y() noexcept {
+		Mat4x4 r{};
+		r.m11 = 1.0f;
+		r.m22 = -1.0f;
+		r.m33 = 1.0f;
+		return r;
+	}
+
+	HELI_FORCE_INLINE static Mat4x4 reflect_z() noexcept {
+		Mat4x4 r{};
+		r.m11 = 1.0f;
+		r.m22 = 1.0f;
+		r.m33 = -1.0f;
+		return r;
+	}
+
+	HELI_FORCE_INLINE static Mat4x4 translate(const Vec3& v) noexcept {
+		Mat4x4 r{};
+
+		r.m11 = 1.0f;
+		r.m22 = 1.0f;
+		r.m33 = 1.0f;
+		r.m44 = 1.0f;
+
+		r.m14 = v.x;
+		r.m24 = v.y;
+		r.m34 = v.z;
+
+		return r;
+	}
+
+	HELI_FORCE_INLINE Vec4 transform(const Vec4& v) const noexcept {
+		Vec4 r{};
+
+		r.x = v.x * m11 + v.y * m21 + v.z * m31 + v.w * m41;
+		r.y = v.x * m12 + v.y * m22 + v.z * m32 + v.w * m42;
+		r.z = v.x * m13 + v.y * m23 + v.z * m33 + v.w * m43;
+		r.w = v.x * m14 + v.y * m24 + v.z * m34 + v.w * m44;
+
+		return r;
+	}
+
+	HELI_FORCE_INLINE Vec3 transform_point(const Vec3& v) const noexcept {
+		Vec4 r = transform(Vec4(v.x, v.y, v.z, 1.0f));
+		return Vec3(r.x, r.y, r.z);
+	}
+
+	HELI_FORCE_INLINE Vec3 transform_direction(const Vec3& v) const noexcept {
+		Vec4 r = transform(Vec4(v.x, v.y, v.z, 0.0f));
+		return Vec3(r.x, r.y, r.z);
+	}
+
+	HELI_FORCE_INLINE static Mat4x4 perspective(
+		float fov_radians,
+		float aspect,
+		float near_plane,
+		float far_plane) noexcept
+	{
+		Mat4x4 r{};
+
+		float f = 1.0f / std::tan(fov_radians * 0.5f);
+		float range_inv = 1.0f / (near_plane - far_plane);
+
+		r.m11 = f / aspect;
+		r.m22 = f;
+		r.m33 = (far_plane + near_plane) * range_inv;
+		r.m34 = -1.0f;
+
+		r.m43 = (2.0f * far_plane * near_plane) * range_inv;
+		r.m44 = 0.0f;
+
+		return r;
+	}
+
+	HELI_FORCE_INLINE static Mat4x4 orthographic(
+		float left,
+		float right,
+		float bottom,
+		float top,
+		float near_plane,
+		float far_plane) noexcept
+	{
+		Mat4x4 r{};
+
+		r.m11 = 2.0f / (right - left);
+		r.m22 = 2.0f / (top - bottom);
+		r.m33 = -2.0f / (far_plane - near_plane);
+
+		r.m14 = -(right + left) / (right - left);
+		r.m24 = -(top + bottom) / (top - bottom);
+		r.m34 = -(far_plane + near_plane) / (far_plane - near_plane);
+
+		r.m44 = 1.0f;
+
+		return r;
 	}
 };
 
-HELI_FORCE_INLINE Mat4x4 operator*(float s, const Mat4x4& m)
+HELI_FORCE_INLINE Mat4x4 operator*(float s, const Mat4x4& m) noexcept
 {
 	return m * s;
 }
 
 std::ostream& operator<<(std::ostream& out_stream, const Mat4x4& a);
-	
